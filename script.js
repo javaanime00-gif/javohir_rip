@@ -254,17 +254,106 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 const searchResults = document.getElementById("searchResults");
+const detailDialog = document.getElementById("detailDialog");
+const detailContent = document.getElementById("detailContent");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
+const aiProvider = document.getElementById("aiProvider");
+const sendChat = document.getElementById("sendChat");
+const conversation = [];
+
+const placeDetails = {
+  "Registon maydoni":
+    "Registon nomi fors tilidagi “qumli joy” iborasi bilan bog'lanadi. Maydon atrofidagi uch madrasa Temuriylar davridan keyingi Samarqandning ilmiy va me'moriy taraqqiyotini ko'rsatadi. Koshinlar, peshtoqlar va hovlilarni tomosha qilish uchun vaqt ajrating.",
+  "Go'ri Amir maqbarasi":
+    "Maqbara dastlab Amir Temurning nabirasi Muhammad Sulton uchun qurilgan, keyinchalik Temuriylar sulolasi maqbarasiga aylangan. Ichki bezaklarida zarhal naqshlar, marmar va nefritdan foydalanilgan.",
+  "Shohi Zinda majmuasi":
+    "Majmuaning nomi “Tirik shoh” ma'nosini anglatadi. U Afrosiyob tepaligi yonidagi muqaddas ziyorat yo'li bo'ylab shakllangan; turli davrlarga oid maqbaralar koshinkor bezaklari bilan ajralib turadi.",
+  "Ark qal'asi":
+    "Ark Buxoroning qadimiy mustahkam qarorgohi bo'lib, turli davrlarda hukmdorlar, amaldorlar va hunarmandlar yashagan ichki shaharcha vazifasini bajargan. Muzey bo'limlarida shahar tarixi va saroy hayoti haqida ma'lumot olish mumkin.",
+  "Minorai Kalon va Poi Kalon":
+    "Poi Kalon ansambli Kalon minorasi, Kalon masjidi va Mir Arab madrasasini birlashtiradi. Minora asrlar davomida karvonlar uchun mo'ljal bo'lib xizmat qilgan; ansambl Buxoroning tarixiy markazidagi asosiy diqqatga sazovor joylardan.",
+  "Ichan-Qal'a":
+    "Ichan-Qal'a — Xivaning ichki shahri bo'lib, mudofaa devorlari ichida saroylar, masjidlar, madrasalar va turar joylarni jamlaydi. Tarixiy shahar 1990-yilda UNESCO Jahon merosi ro'yxatiga kiritilgan.",
+  "Kalta Minor":
+    "Kalta Minorning qurilishi Muhammad Aminxon davrida boshlangan, ammo hukmdor vafotidan keyin tugallanmay qolgan. Uning o'ziga xos keng shakli va moviy-yashil koshinlari Xiva siluetini belgilab beradi.",
+  "Oqsaroy saroyi qoldiqlari":
+    "Oqsaroy Amir Temur buyrug'i bilan Shahrisabzda bunyod etilgan saroy edi. Bugun saqlangan ulkan peshtoq qoldiqlari inshootning avvalgi ko'lami va bezaklarini tasavvur qilish imkonini beradi.",
+  "Hazrati Imom majmuasi":
+    "Toshkentning eski shahridagi majmua Baroqxon madrasasi, Tilla Shayx masjidi va boshqa diniy-ma'rifiy binolarni qamrab oladi. Bu joy poytaxtning tarixiy mahallalari va islomiy qo'lyozmalar merosi bilan tanishtiradi.",
+  "Fayoztepa buddaviylik majmuasi":
+    "Fayoztepa qadimgi Termiz yaqinidagi buddaviylik ibodatxonasi va monastir xarobalaridir. Topilmalar Kushon davridagi diniy hayot va Markaziy Osiyoning Hindiston hamda boshqa hududlar bilan aloqalarini yoritadi.",
+  "Aydarko'l":
+    "Aydarko'l Qizilqum hududidagi ko'llar tizimining yirik qismi bo'lib, cho'l landshafti bilan keskin farq qiladigan suv va qamishzor manzaralariga ega. Qush kuzatish va cho'l tajribasi uchun qiziqarli manzil.",
+  "Chorvoq suv ombori":
+    "Chorvoq suv ombori Ugom-Chatqol tog'lari etagida joylashgan. Ko'l atrofi dam olish maskanlari va tog' yo'nalishlari bilan tanilgan; mavsumga qarab ob-havo, yo'l holati va xavfsizlik qoidalarini oldindan tekshirish lozim.",
+};
+
+const regionDetails = {
+  "Andijon viloyati": "Vodiydagi zich aholi yashaydigan va bog'dorchilik rivojlangan hudud. Andijon shahri Bobur tavallud topgan joy sifatida ham tarixiy ahamiyatga ega. Devonaboy Jome majmuasi, Bobur bog'i va Xonobod tomonidagi tog'oldi manzaralarini ko'rish mumkin.",
+  "Buxoro viloyati": "Viloyatning tarixiy markazi Buyuk Ipak yo'li bo'yidagi Buxoro vohasidir. Eski shaharda Ark, Poi Kalon va Labi Hovuz ansambllari, shahar tashqarisida esa Bahouddin Naqshband majmuasi va qadimiy manzilgohlar bor.",
+  "Farg'ona viloyati": "Farg'ona vodiysining janubiy qismidagi hudud ipakchilik, bog'dorchilik va hunarmandchiligi bilan mashhur. Marg'ilonda atlas-adras to'qish, Rishtonda kulolchilik, Qo'qonda esa Xudoyorxon saroyi va tarixiy markaz bilan tanishish mumkin.",
+  "Jizzax viloyati": "Viloyat Mirzacho'l tekisliklaridan Turkiston tizmasi etaklarigacha cho'ziladi. Zomin milliy tabiat bog'i, Aydarko'l va Forish atrofi tabiat hamda ochiq havodagi sayohatlarni yoqtiruvchilar uchun qiziqarli.",
+  "Namangan viloyati": "Farg'ona vodiysining shimoliy qismidagi viloyat gulchilik, bog'dorchilik va tarixiy yodgorliklari bilan tanilgan. Namangan shahri, Mulla Qirg'iz madrasasi, Chortoq va qadimiy Axsikent xarobalari diqqatga sazovor.",
+  "Navoiy viloyati": "O'zbekistonning maydoni katta hududlaridan biri bo'lib, Qizilqum cho'li, Nurota tog'lari va qadimiy karvon yo'llarini qamrab oladi. Sarmishsoy qoyatosh rasmlari, Nurota va Qizilqum manzaralari tarix hamda tabiatni birlashtiradi.",
+  "Qashqadaryo viloyati": "Qarshi vohasi va Hisor tog'lari etaklarini qamrab olgan janubiy hudud. Shahrisabzdagi Oqsaroy va Dorut Tilovat majmualari Amir Temur davri tarixini, Qarshi esa vohaning shahar hayotini namoyon etadi.",
+  "Qoraqalpog'iston Respublikasi": "Orolbo'yi va Amudaryo deltasidagi avtonom respublika. Nukusdagi Savitskiy muzeyi, Mizdaxkan majmuasi va qadimiy qal'alar qoraqalpoq madaniyati hamda Xorazm vohasining tarixini ochib beradi. Orolbo'yi safarini rejalashdan oldin masofa va mahalliy sharoitni hisobga oling.",
+  "Samarqand viloyati": "Zarafshon vodiysidagi viloyat markazida Registon, Go'ri Amir va Shohi Zinda kabi jahon miqyosidagi yodgorliklar joylashgan. Samarqanddan tashqarida Urgut bozori, qishloqlar va tog'oldi manzaralarini kashf etish mumkin.",
+  "Sirdaryo viloyati": "Mirzacho'l tekisligidagi viloyat Sirdaryo bo'yidagi dehqonchilik hududlarini qamrab oladi. Guliston viloyat markazi, Sayxunobod va daryo bo'yi manzaralari esa sokin mahalliy sayohat uchun mos.",
+  "Surxondaryo viloyati": "O'zbekistonning eng janubiy, iliq iqlimli hududi. Termiz atrofidagi Fayoztepa va boshqa qadimiy yodgorliklar buddaviylik tarixini, Boysun esa tog' manzaralari va an'anaviy madaniyatni ko'rsatadi.",
+  "Toshkent viloyati": "Poytaxtni o'rab turgan viloyat tog'lar, daryolar va dam olish hududlari bilan ajralib turadi. Chorvoq, Chimgan, Ugom-Chatqol va Parkent tomonlari tabiat qo'ynida sayr qilishga imkon beradi.",
+  "Toshkent shahri": "O'zbekiston poytaxti va eng yirik shahri: zamonaviy markazlar bilan birga eski shahar, Chorsu bozori, Hazrati Imom majmuasi va Amir Temur xiyoboni mavjud. Metro stansiyalarining me'morchiligi ham alohida ko'rishga arziydi.",
+  "Xorazm viloyati": "Amudaryoning quyi oqimidagi qadimiy voha. Xiva ichidagi Ichan-Qal'a, Urganch shahri va Xorazmning an'anaviy taomlari hamda hunarmandchiligi viloyatning asosiy diqqatga sazovor jihatlaridir.",
+};
+
+function openDetail(type, index) {
+  const item = (type === "place" ? places : regions)[index];
+  if (!item) return;
+
+  const isPlace = type === "place";
+  const title = escapeHTML(item.name);
+  const summary = escapeHTML(item.description);
+  const extra = escapeHTML(
+    isPlace ? placeDetails[item.name] : regionDetails[item.name]
+  );
+  const facts = isPlace
+    ? `<div class="detail-fact"><span>Joylashuvi</span><strong>${escapeHTML(item.location)}</strong></div>
+       <div class="detail-fact"><span>Davri / turi</span><strong>${escapeHTML(item.period)}</strong></div>`
+    : `<div class="detail-fact"><span>Ma'muriy markazi</span><strong>${escapeHTML(item.center)}</strong></div>
+       <div class="detail-fact"><span>Mashhur joylar</span><strong>${escapeHTML(item.highlights)}</strong></div>`;
+
+  detailContent.innerHTML = `
+    <img class="detail-image" src="${escapeHTML(item.image)}" alt="${title}" />
+    <p class="eyebrow">${isPlace ? "Tarixiy joy va sayohat manzili" : "O'zbekiston hududi"}</p>
+    <h2>${title}</h2>
+    <div class="detail-facts">${facts}</div>
+    <section class="detail-copy">
+      <h3>Umumiy ma'lumot</h3>
+      <p>${summary}</p>
+      <h3>${isPlace ? "Tarixi va ahamiyati" : "Hudud haqida batafsil"}</h3>
+      <p>${extra}</p>
+      <h3>Sayohat uchun maslahat</h3>
+      <p>
+        Safar oldidan obidaning ish vaqti, kirish shartlari va mahalliy ob-havoni tekshiring.
+        Tarixiy joylarda ashyolarga ehtiyotkor munosabatda bo'ling; muqaddas maskanlarda
+        mahalliy odob va kiyinish qoidalariga rioya qiling.
+      </p>
+    </section>
+    <a class="image-credit" href="${escapeHTML(item.imagePage)}" target="_blank" rel="noopener noreferrer">Rasm manbasi: Wikimedia Commons</a>
+  `;
+  detailDialog.showModal();
+}
 
 function renderPlaces(filter = "all") {
-  const filtered =
-    filter === "all"
-      ? places
-      : places.filter((place) => place.category === filter);
+  const filtered = places
+    .map((place, index) => ({ place, index }))
+    .filter(({ place }) => filter === "all" || place.category === filter);
 
   placeGrid.innerHTML = filtered
     .map(
-      (place) => `
-        <article class="place-card">
+      ({ place, index }) => `
+        <article class="place-card" data-detail-type="place" data-detail-index="${index}">
           <img src="${place.image}" alt="${place.name} — ${place.location}" loading="lazy" decoding="async" />
           <div class="place-card-content">
             <div class="place-meta">
@@ -272,7 +361,8 @@ function renderPlaces(filter = "all") {
               <span class="place-tag">${place.period}</span>
             </div>
             <h3>${place.name}</h3>
-            <p>${place.description}</p>
+            <p class="card-summary">${place.description}</p>
+            <button class="detail-button" type="button" data-detail-type="place" data-detail-index="${index}">Batafsil ma'lumot</button>
             <a class="image-credit" href="${place.imagePage}" target="_blank" rel="noopener noreferrer">Rasm manbasi: Wikimedia Commons</a>
           </div>
         </article>
@@ -284,14 +374,15 @@ function renderPlaces(filter = "all") {
 function renderRegions() {
   regionGrid.innerHTML = regions
     .map(
-      (region) => `
-        <article class="region-card">
+      (region, index) => `
+        <article class="region-card" data-detail-type="region" data-detail-index="${index}">
           <img src="${region.image}" alt="${region.name} manzarasi" loading="lazy" decoding="async" />
           <div class="region-card-content">
             <p class="region-center">Markazi: ${region.center}</p>
             <h3>${region.name}</h3>
-            <p>${region.description}</p>
+            <p class="card-summary">${region.description}</p>
             <p class="region-highlights"><strong>Ko'rishga arziydi:</strong> ${region.highlights}</p>
+            <button class="detail-button" type="button" data-detail-type="region" data-detail-index="${index}">Hudud haqida batafsil</button>
             <a class="image-credit" href="${region.imagePage}" target="_blank" rel="noopener noreferrer">Rasm manbasi: Wikimedia Commons</a>
           </div>
         </article>
@@ -334,16 +425,20 @@ function performSearch() {
     return;
   }
 
-  const matchingPlaces = places.filter((place) =>
-    `${place.name} ${place.location} ${place.description} ${place.period}`
-      .toLocaleLowerCase("uz")
-      .includes(query)
-  );
-  const matchingRegions = regions.filter((region) =>
-    `${region.name} ${region.center} ${region.description} ${region.highlights}`
-      .toLocaleLowerCase("uz")
-      .includes(query)
-  );
+  const matchingPlaces = places
+    .map((place, index) => ({ place, index }))
+    .filter(({ place }) =>
+      `${place.name} ${place.location} ${place.description} ${place.period}`
+        .toLocaleLowerCase("uz")
+        .includes(query)
+    );
+  const matchingRegions = regions
+    .map((region, index) => ({ region, index }))
+    .filter(({ region }) =>
+      `${region.name} ${region.center} ${region.description} ${region.highlights}`
+        .toLocaleLowerCase("uz")
+        .includes(query)
+    );
 
   if (!matchingPlaces.length && !matchingRegions.length) {
     searchResults.innerHTML = `
@@ -357,23 +452,25 @@ function performSearch() {
 
   const placeResults = matchingPlaces
     .map(
-      (place) => `
+      ({ place, index }) => `
         <article class="search-result-card">
           <p class="region-center">Tarixiy joy · ${place.location}</p>
           <h3>${place.name}</h3>
           <p>${place.description}</p>
+          <button class="detail-button" type="button" data-detail-type="place" data-detail-index="${index}">Batafsil ma'lumot</button>
         </article>
       `
     )
     .join("");
   const regionResults = matchingRegions
     .map(
-      (region) => `
+      ({ region, index }) => `
         <article class="search-result-card">
           <p class="region-center">Hudud · Markazi: ${region.center}</p>
           <h3>${region.name}</h3>
           <p>${region.description}</p>
           <p><strong>Ko'rishga arziydi:</strong> ${region.highlights}</p>
+          <button class="detail-button" type="button" data-detail-type="region" data-detail-index="${index}">Hudud haqida batafsil</button>
         </article>
       `
     )
@@ -381,6 +478,85 @@ function performSearch() {
 
   searchResults.innerHTML = placeResults + regionResults;
 }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element) || target.closest(".image-credit")) return;
+    const detailTarget = target.closest("[data-detail-type]");
+    if (detailTarget) {
+      openDetail(
+        detailTarget.dataset.detailType,
+        Number(detailTarget.dataset.detailIndex)
+      );
+    }
+  });
+
+  document.getElementById("closeDetail").addEventListener("click", () => {
+    detailDialog.close();
+  });
+
+  detailDialog.addEventListener("click", (event) => {
+    if (event.target === detailDialog) detailDialog.close();
+  });
+
+  function appendChatMessage(role, text) {
+    const message = document.createElement("div");
+    message.className = `chat-message ${role === "user" ? "user-message" : "assistant-message"}`;
+    message.textContent = text;
+    chatMessages.append(message);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return message;
+  }
+
+  chatForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text || sendChat.disabled) return;
+
+    conversation.push({ role: "user", content: text });
+    appendChatMessage("user", text);
+    chatInput.value = "";
+    sendChat.disabled = true;
+    sendChat.textContent = "Javob kutilmoqda...";
+    const pendingMessage = appendChatMessage("assistant", "Javob tayyorlanmoqda...");
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          provider: aiProvider.value,
+          messages: conversation.slice(-12),
+        }),
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "AI xizmatida xatolik yuz berdi.");
+      }
+
+      pendingMessage.textContent = result.reply;
+      conversation.push({ role: "assistant", content: result.reply });
+    } catch (error) {
+      pendingMessage.textContent = error.message;
+      pendingMessage.classList.add("chat-error");
+      conversation.pop();
+    } finally {
+      sendChat.disabled = false;
+      sendChat.textContent = "Yuborish";
+      chatInput.focus();
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  });
+
+  document.getElementById("clearChat").addEventListener("click", () => {
+    conversation.length = 0;
+    chatMessages.replaceChildren();
+    appendChatMessage(
+      "assistant",
+      "Salom! O'zbekiston haqida istalgan tilda savol bering."
+    );
+  });
 
 searchButton.addEventListener("click", performSearch);
 searchInput.addEventListener("keydown", (event) => {

@@ -29,6 +29,7 @@
           <a href="#regions">Hududlar</a>
           <a href="#facts">Faktlar</a>
           <a href="#search">Qidiruv</a>
+          <a href="#ai-chat">AI suhbat</a>
         </nav>
       </div>
     </header>
@@ -186,7 +187,52 @@
           <div id="searchResults" class="search-results"></div>
         </div>
       </section>
+
+      <section id="ai-chat" class="ai-chat-section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Ko'p tilli AI yo'lboshchi</p>
+            <h2>O'zbekiston haqida savolingiz bormi?</h2>
+            <p class="section-intro">
+              O'zbek, ingliz va boshqa ko'plab tillarda yozing. Javob uchun Gemini
+              yoki Claude modelini tanlang.
+            </p>
+          </div>
+          <div class="ai-chat-card">
+            <div class="chat-toolbar">
+              <label for="aiProvider">AI modeli</label>
+              <select id="aiProvider">
+                <option value="gemini">Gemini</option>
+                <option value="claude">Claude</option>
+              </select>
+              <button id="clearChat" class="text-button" type="button">Suhbatni tozalash</button>
+            </div>
+            <div id="chatMessages" class="chat-messages" aria-live="polite" aria-label="AI bilan suhbat">
+              <div class="chat-message assistant-message">
+                Salom! Men sayohat yo'lboshchingizman. O'zbekiston shaharlari,
+                tarixi, obidalari yoki sayohat rejalari haqida istalgan tilda so'rang.
+              </div>
+            </div>
+            <form id="chatForm" class="chat-form">
+              <label class="sr-only" for="chatInput">AI uchun xabaringiz</label>
+              <textarea id="chatInput" rows="2" maxlength="2000" required
+                placeholder="Masalan: Samarqandda bir kunda nimalarni ko'rsam bo'ladi?"></textarea>
+              <button id="sendChat" class="btn primary" type="submit">Yuborish</button>
+            </form>
+            <p class="chat-privacy">
+              Xabarlar tanlangan AI xizmatiga yuboriladi. Maxfiy yoki shaxsiy ma'lumot yozmang.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <dialog id="detailDialog" class="detail-dialog">
+      <div class="dialog-shell">
+        <button id="closeDetail" class="dialog-close" type="button" aria-label="Yopish">×</button>
+        <div id="detailContent"></div>
+      </div>
+    </dialog>
 
     <footer class="site-footer">
       <div class="container footer-inner">

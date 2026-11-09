@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About.Uzbekistan</title>
+    <meta
+      name="description"
+      content="O'zbekiston haqida ma'lumotlar, tarixiy obidalar, sayohat yo'nalishlari va qidiruv tizimi."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <span class="brand-mark">U</span>
+          <span>About.Uzbekistan</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#about">Haqida</a>
+          <a href="#places">Obidalar</a>
+          <a href="#regions">Hududlar</a>
+          <a href="#facts">Faktlar</a>
+          <a href="#search">Qidiruv</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow">Markaziy Osiyo yodgorligi</p>
+            <h1>O'zbekiston — tarix, madaniyat va ajoyib manzara.</h1>
+            <p class="lead">
+              Samarqand, Buxoro, Xiva, Toshkent va Shahrisabz kabi shaharlarda
+              ming yillik tarix, moviy gumbazlar va mehmondo'stlik kutib oladi.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#places">Obidalarga o'tish</a>
+              <a class="btn secondary" href="#search">Qidiruvni boshlash</a>
+            </div>
+            <ul class="stats">
+              <li><strong>12</strong><span>viloyat</span></li>
+              <li><strong>14</strong><span>ma'muriy hudud</span></li>
+              <li><strong>2 500+</strong><span>yillik tarixga ega shaharlar</span></li>
+            </ul>
+          </div>
+          <div class="hero-visual">
+            <div class="image-stack">
+              <img
+                src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/RegistanSquare_Samarkand.jpg/1280px-RegistanSquare_Samarkand.jpg"
+                alt="Samarkand Registon"
+              />
+              <div class="floating-card">
+                <span>Yaqin manzil</span>
+                <strong>Registon, Samarqand</strong>
+                <a class="image-credit" href="https://commons.wikimedia.org/wiki/File:RegistanSquare_Samarkand.jpg" target="_blank" rel="noopener noreferrer">Rasm: Wikimedia Commons</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="about">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">O'zbekiston haqida</p>
+            <h2>Madaniyatdan tabiatgacha</h2>
+            <p class="section-intro">
+              O'zbekiston Buyuk Ipak yo'li chorrahasida joylashgan. Samarqand,
+              Buxoro va Xiva kabi qadimiy shaharlar me'morchiligi, hunarmandchiligi
+              va tarixiy merosi bilan mashhur.
+            </p>
+          </div>
+          <div class="about-grid">
+            <article>
+              <h3>Tarix</h3>
+              <p>
+                O'zbekiston — qadimiy savdo yo'llari, buyuk davlatlar va buyuk
+                mutafakkirlarning vatani. Bu yerda ming yillik madaniyat va
+                san'at an'analari saqlanib qolgan.
+              </p>
+            </article>
+            <article>
+              <h3>Geografiya</h3>
+              <p>
+                Mamlakat Markaziy Osiyoda joylashgan bo'lib, tog'lar, cho'llar,
+                dashtlar va o'ziga xos shaharlarni birlashtiradi.
+              </p>
+            </article>
+            <article>
+              <h3>Madaniyat</h3>
+              <p>
+                Til, kiyim, oshxona, an'anaviy hunarmandchilik, musiqa va
+                bayramlar O'zbekiston madaniyatining ruhini aks ettiradi.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="places" class="places">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Tarixiy obidalar</p>
+            <h2>O'zbekistonning mashhur joylari</h2>
+          </div>
+
+          <div class="place-filters" aria-label="Toifalar bo'yicha saralash">
+            <button class="filter-btn active" data-filter="all">Barchasi</button>
+            <button class="filter-btn" data-filter="madaniy">Madaniy</button>
+            <button class="filter-btn" data-filter="tabiat">Tabiat</button>
+            <button class="filter-btn" data-filter="shahar">Shahar</button>
+          </div>
+
+          <div id="placeGrid" class="place-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="regions" class="regions">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Hududlar bo'yicha sayohat</p>
+            <h2>O'zbekistonning har bir hududi</h2>
+            <p class="section-intro">
+              Viloyatlar, Qoraqalpog'iston Respublikasi va Toshkent shahri —
+              har birining o'ziga xos tabiati, taomi va ko'rishga arzigulik joylari bor.
+            </p>
+          </div>
+          <div id="regionGrid" class="region-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="facts" class="facts">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Muhim ma'lumotlar</p>
+            <h2>O'zbekiston haqida tezkor faktlar</h2>
+          </div>
+          <div class="facts-grid">
+            <div class="fact-card">
+              <h3>Poytaxt</h3>
+              <p>Toshkent — mamlakatning eng yirik shahri va madaniy markazi.</p>
+            </div>
+            <div class="fact-card">
+              <h3>Valyuta</h3>
+              <p>So'm — O'zbekistonning pul birligi bo'lib, mamlakat iqtisodiyoti uchun muhim rol o'ynaydi.</p>
+            </div>
+            <div class="fact-card">
+              <h3>Til</h3>
+              <p>O'zbek tili rasmiy til bo'lib, turli millatlar va madaniyatlar birga yashaydi.</p>
+            </div>
+            <div class="fact-card">
+              <h3>Taomlar</h3>
+              <p>Plov, somsa, lag'mon, non va meva O'zbekiston oshxonasining milliy ramzlaridir.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="search" class="search-panel">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Shaxsiy qidiruv</p>
+            <h2>Qayerga borishni xohlaysiz?</h2>
+          </div>
+
+          <div class="search-box-wrap">
+            <label class="sr-only" for="searchInput">Qidirish</label>
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Masalan: Samarqand, Registon, Buxoro, Xiva yoki tarixiy obida..."
+            />
+            <button id="searchButton" class="btn primary">Qidirish</button>
+          </div>
+
+          <div id="searchResults" class="search-results"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 About.Uzbekistan</p>
+        <p class="tiny-sign">Javohir</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
